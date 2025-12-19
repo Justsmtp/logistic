@@ -146,7 +146,6 @@ const deliverySchema = new mongoose.Schema({
 });
 
 // Indexes for better query performance
-deliverySchema.index({ trackingNumber: 1 });
 deliverySchema.index({ customer: 1 });
 deliverySchema.index({ driver: 1 });
 deliverySchema.index({ status: 1 });

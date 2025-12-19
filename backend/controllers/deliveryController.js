@@ -214,34 +214,6 @@ exports.trackDelivery = async (req, res, next) => {
   }
 };
 
-// Helper function to calculate delivery price
-function calculatePrice(packageDetails, pickupAddress, deliveryAddress) {
-  // Base price
-  let price = 1000; // ₦1000 base
-
-  // Weight-based pricing
-  if (packageDetails.weight) {
-    price += packageDetails.weight * 100; // ₦100 per kg
-  }
-
-  // Priority pricing
-  const priorityMultiplier = {
-    low: 1,
-    medium: 1.2,
-    high: 1.5,
-    urgent: 2
-  };
-
-  // Distance-based pricing (simplified - in production, use actual distance API)
-  const isSameCity = pickupAddress.city === deliveryAddress.city;
-  if (!isSameCity) {
-    price += 2000; // Inter-city surcharge
-  }
-
-  return Math.round(price);
-
-  // Continue from Part 1...
-
 /**
  * @desc    Assign driver to delivery
  * @route   PUT /api/deliveries/:id/assign
@@ -605,7 +577,21 @@ exports.getStats = async (req, res, next) => {
   }
 };
 
-module.exports = exports;
+// Helper function to calculate delivery price
+function calculatePrice(packageDetails, pickupAddress, deliveryAddress) {
+  // Base price
+  let price = 1000; // ₦1000 base
+
+  // Weight-based pricing
+  if (packageDetails.weight) {
+    price += packageDetails.weight * 100; // ₦100 per kg
+  }
+
+  // Distance-based pricing (simplified - in production, use actual distance API)
+  const isSameCity = pickupAddress.city === deliveryAddress.city;
+  if (!isSameCity) {
+    price += 2000; // Inter-city surcharge
+  }
+
+  return Math.round(price);
 }
-
-
