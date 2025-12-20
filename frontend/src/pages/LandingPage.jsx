@@ -1,11 +1,14 @@
-/* eslint-disable no-unused-vars */
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const LandingPage = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('home');
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -15,154 +18,208 @@ const LandingPage = () => {
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
+    setShowMobileMenu(false);
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleTrackingClick = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    // Handle contact form submission
     alert('Thank you! We will get back to you soon.');
     setContactForm({ name: '', email: '', phone: '', message: '' });
     setShowContactForm(false);
   };
 
-  const features = [
+  const services = [
     {
-      icon: '📦',
+      title: 'Express Delivery',
+      description: 'Same-day and next-day nationwide delivery service. Get your packages delivered quickly and efficiently across all major cities.',
+      image: '/pic1.jpeg'
+    },
+    {
+      title: 'Freight & Haulage',
+      description: 'Heavy goods and long-distance transportation. We handle bulk shipments and oversized cargo with specialized equipment.',
+      image: '/pic2.jpeg'
+    },
+    {
+      title: 'Warehouse & Fulfillment',
+      description: 'Secure storage and order processing facilities. Climate-controlled warehouses with 24/7 security and inventory management.',
+      image: '/pic3.jpeg'
+    },
+    {
+      title: 'E-commerce Logistics',
+      description: 'Online store deliveries and returns handling. Seamless integration with your e-commerce platform for automated order fulfillment.',
+      image: '/pic4.jpeg'
+    },
+    {
       title: 'Real-Time Tracking',
-      description: 'Track your deliveries in real-time with GPS accuracy'
+      description: 'Live shipment tracking with status updates. Monitor your deliveries with GPS accuracy and receive instant notifications.',
+      image: '/pic5.jpeg'
     },
     {
-      icon: '🚚',
-      title: 'Professional Drivers',
-      description: 'Verified and experienced drivers for safe delivery'
-    },
-    {
-      icon: '📱',
-      title: 'WhatsApp Updates',
-      description: 'Get instant notifications via WhatsApp'
-    },
-    {
-      icon: '📸',
-      title: 'Proof of Delivery',
-      description: 'Photo and GPS proof for every delivery'
-    },
-    {
-      icon: '💰',
-      title: 'Transparent Pricing',
-      description: 'Clear pricing with no hidden charges'
-    },
-    {
-      icon: '🔒',
-      title: 'Secure & Reliable',
-      description: 'Your packages are in safe hands'
+      title: 'International Shipping',
+      description: 'Cross-border logistics and customs handling. We manage documentation, duties, and international regulations for smooth deliveries.',
+      image: '/pic1.jpeg'
     }
   ];
 
   const stats = [
-    { value: '10,000+', label: 'Deliveries Completed' },
-    { value: '500+', label: 'Active Drivers' },
-    { value: '5,000+', label: 'Happy Customers' },
-    { value: '50+', label: 'Cities Covered' }
+    { value: '50,000+', label: 'Deliveries Monthly' },
+    { value: '1,200+', label: 'Active Fleet' },
+    { value: '15,000+', label: 'Business Clients' },
+    { value: '98%', label: 'On-Time Delivery' }
   ];
 
-  const team = [
+  const testimonials = [
     {
-      name: 'John Adebayo',
-      role: 'CEO & Founder',
-      image: '👨‍💼',
-      bio: '10+ years in logistics management'
+      name: 'Adebayo Enterprises',
+      role: 'Manufacturing Company',
+      text: 'FastCargo has revolutionized our distribution network. Their freight services are reliable and their tracking system gives us complete visibility.'
     },
     {
-      name: 'Sarah Okonkwo',
-      role: 'CTO',
-      image: '👩‍💻',
-      bio: 'Tech innovator in delivery solutions'
+      name: 'ShopNow Nigeria',
+      role: 'E-commerce Platform',
+      text: 'Partnering with FastCargo for our fulfillment needs was the best decision. Same-day delivery has increased our customer satisfaction by 40%.'
     },
     {
-      name: 'Michael Eze',
-      role: 'Operations Manager',
-      image: '👨‍💼',
-      bio: 'Expert in fleet management'
-    },
-    {
-      name: 'Blessing Chukwu',
-      role: 'Customer Success',
-      image: '👩‍💼',
-      bio: 'Dedicated to customer satisfaction'
+      name: 'TechHub Ltd',
+      role: 'Electronics Distributor',
+      text: 'International shipping made easy. FastCargo handles all customs documentation and ensures our products arrive safely across borders.'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-dark-900 cyber-grid">
+    <div className="min-h-screen bg-dark-900">
       {/* Navigation */}
       <nav className="glass-card border-b border-white/10 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="text-3xl"
-              >
-                🚚
-              </motion.div>
-              <h1 className="text-2xl font-bold gradient-text">LogiTrack</h1>
-            </div>
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="text-3xl font-bold">
+                <span className="text-white">Fast</span>
+                <span className="gradient-text">Cargo</span>
+              </div>
+            </Link>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-6">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
               <button
-                onClick={() => scrollToSection('home')}
-                className="text-gray-300 hover:text-neon-blue transition-colors"
+                onClick={() => scrollToSection('orders')}
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
-                Home
+                Orders
               </button>
               <button
-                onClick={() => scrollToSection('about')}
-                className="text-gray-300 hover:text-neon-blue transition-colors"
+                onClick={() => scrollToSection('schedules')}
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
-                About Us
+                Schedules
               </button>
               <button
-                onClick={() => scrollToSection('features')}
-                className="text-gray-300 hover:text-neon-blue transition-colors"
+                onClick={handleTrackingClick}
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
-                Features
+                Tracking
               </button>
               <button
-                onClick={() => scrollToSection('experience')}
-                className="text-gray-300 hover:text-neon-blue transition-colors"
+                onClick={() => scrollToSection('services')}
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
-                Experience
+                Services
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-gray-300 hover:text-neon-blue transition-colors"
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
                 Contact
               </button>
-              <Link to="/login" className="btn-secondary text-sm">
+              <Link to="/login" className="btn-secondary text-sm px-6">
                 Sign In
               </Link>
-              <Link to="/register" className="btn-primary text-sm">
+              <Link to="/register" className="btn-primary text-sm px-6">
                 Get Started
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden text-white">
+            <button 
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="md:hidden text-white p-2"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                {showMobileMenu ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
               </svg>
             </button>
           </div>
+
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {showMobileMenu && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden border-t border-white/10 py-4 space-y-2"
+              >
+                <button
+                  onClick={() => scrollToSection('orders')}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-white/5 rounded-lg"
+                >
+                  Orders
+                </button>
+                <button
+                  onClick={() => scrollToSection('schedules')}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-white/5 rounded-lg"
+                >
+                  Schedules
+                </button>
+                <button
+                  onClick={handleTrackingClick}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-white/5 rounded-lg"
+                >
+                  Tracking
+                </button>
+                <button
+                  onClick={() => scrollToSection('services')}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-white/5 rounded-lg"
+                >
+                  Services
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-white/5 rounded-lg"
+                >
+                  Contact
+                </button>
+                <div className="flex flex-col gap-2 px-4 pt-2">
+                  <Link to="/login" className="btn-secondary text-sm text-center">
+                    Sign In
+                  </Link>
+                  <Link to="/register" className="btn-primary text-sm text-center">
+                    Get Started
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden py-20 md:py-32">
+      <section id="home" className="relative overflow-hidden py-20 md:py-32 cyber-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -170,42 +227,49 @@ const LandingPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                <span className="gradient-text">Logistics</span>
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span className="text-white">Fast, Reliable</span>
                 <br />
-                Made Simple
+                <span className="gradient-text">Logistics Solutions</span>
               </h1>
-              <p className="text-xl text-gray-400 mb-8">
-                Track your deliveries in real-time with complete transparency. 
-                Professional drivers, instant notifications, and proof of delivery.
+              <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+                Nigeria's most trusted logistics partner. From express delivery to international shipping, 
+                we handle your cargo with speed, care, and complete transparency.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/register" className="btn-primary">
-                  🚀 Start Shipping
+                <Link to="/register" className="btn-primary text-lg px-8">
+                  Start Shipping
                 </Link>
-                <Link to="/track" className="btn-secondary">
-                  📍 Track Package
-                </Link>
+                <button 
+                  onClick={handleTrackingClick}
+                  className="btn-secondary text-lg px-8"
+                >
+                  Track Shipment
+                </button>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="text-9xl animate-float">🚚</div>
-              <div className="absolute top-0 right-0 text-6xl animate-float animation-delay-200">📦</div>
-              <div className="absolute bottom-0 left-0 text-6xl animate-float animation-delay-400">📱</div>
+              <img 
+                src="/pic1.jpeg" 
+                alt="FastCargo Logistics" 
+                className="rounded-2xl shadow-2xl w-full h-64 md:h-80 lg:h-96 object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
             </motion.div>
           </div>
         </div>
 
-        {/* Animated background elements */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 pointer-events-none opacity-10">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-neon-blue rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-neon-purple rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-neon-cyan rounded-full blur-3xl"></div>
         </div>
       </section>
 
@@ -232,8 +296,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* About Us Section */}
-      <section id="about" className="py-20">
+      {/* Services Section */}
+      <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -241,118 +305,190 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">About LogiTrack</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              We're revolutionizing logistics in Nigeria with technology-driven solutions
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="glass-card p-8"
-            >
-              <h3 className="text-3xl font-bold text-white mb-4">Our Mission</h3>
-              <p className="text-gray-400 mb-6">
-                To provide transparent, reliable, and efficient logistics solutions that connect 
-                businesses and individuals across Nigeria. We believe in leveraging technology 
-                to make delivery tracking seamless and trustworthy.
-              </p>
-              <p className="text-gray-400">
-                Founded in 2024, LogiTrack has quickly become a trusted name in the logistics 
-                industry, serving thousands of customers with our innovative platform.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="glass-card p-8"
-            >
-              <h3 className="text-3xl font-bold text-white mb-4">Why Choose Us?</h3>
-              <ul className="space-y-4">
-                {[
-                  'Real-time GPS tracking',
-                  'Professional & verified drivers',
-                  'Instant WhatsApp notifications',
-                  'Photo proof of delivery',
-                  'Transparent pricing',
-                  '24/7 customer support'
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 text-gray-300">
-                    <span className="text-neon-blue text-xl">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Team Section */}
-          <div>
-            <h3 className="text-3xl font-bold text-center text-white mb-12">Meet Our Team</h3>
-            <div className="grid md:grid-cols-4 gap-8">
-              {team.map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="glass-card p-6 text-center card-hover"
-                >
-                  <div className="text-6xl mb-4">{member.image}</div>
-                  <h4 className="text-xl font-bold text-white mb-1">{member.name}</h4>
-                  <p className="text-neon-blue text-sm mb-3">{member.role}</p>
-                  <p className="text-gray-400 text-sm">{member.bio}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-dark-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Powerful Features
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">Our </span>
+              <span className="gradient-text">Services</span>
             </h2>
-            <p className="text-xl text-gray-400">
-              Everything you need for seamless delivery management
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Comprehensive logistics solutions tailored to your business needs
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card p-8 card-hover"
+                className="glass-card overflow-hidden card-hover group"
               >
-                <div className="text-5xl mb-4">{feature.icon}</div>
-                <h3 className="text-2xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) => {
+                      e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%231a1a24" width="400" height="300"/%3E%3Ctext fill="%23666" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle"%3EImage%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/50 to-transparent"></div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{service.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Experience/Reports Section */}
-      <section id="experience" className="py-20">
+      {/* Video Section */}
+      <section className="py-20 bg-dark-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">See </span>
+              <span className="gradient-text">FastCargo in Action</span>
+            </h2>
+            <p className="text-xl text-gray-400">
+              Watch how we deliver excellence across Nigeria
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="glass-card overflow-hidden rounded-2xl max-w-5xl mx-auto"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-64 md:h-96 object-cover"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            >
+              <source src="/vid.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Image Gallery */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">Our </span>
+              <span className="gradient-text">Operations</span>
+            </h2>
+            <p className="text-xl text-gray-400">
+              From highways to warehouses, we're always moving
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {['/pic1.jpeg', '/pic2.jpeg', '/pic3.jpeg', '/pic4.jpeg', '/pic5.jpeg', '/pic1.jpeg'].map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="glass-card overflow-hidden card-hover aspect-video"
+              >
+                <img 
+                  src={img} 
+                  alt={`FastCargo Operations ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%231a1a24" width="400" height="300"/%3E%3Ctext fill="%23666" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle"%3EGallery%3C/text%3E%3C/svg%3E';
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section id="schedules" className="py-20 bg-dark-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">Coverage </span>
+              <span className="gradient-text">Across Nigeria</span>
+            </h2>
+            <p className="text-xl text-gray-400">
+              We deliver to every corner of the nation
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="glass-card p-4 rounded-2xl"
+          >
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4044014.6939964434!2d5.0!3d9.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0baf7da48d0d%3A0x99a8fe4168c50bc8!2sNigeria!5e0!3m2!1sen!2sng!4v1234567890"
+              width="100%"
+              height="500"
+              style={{ border: 0, borderRadius: '12px' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full"
+            ></iframe>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6 mt-12">
+            {[
+              { region: 'Lagos & South-West', coverage: '100%' },
+              { region: 'Abuja & North-Central', coverage: '95%' },
+              { region: 'Port Harcourt & South-South', coverage: '98%' }
+            ].map((area, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="glass-card p-6 text-center"
+              >
+                <div className="text-3xl font-bold gradient-text mb-2">{area.coverage}</div>
+                <div className="text-white font-medium mb-1">{area.region}</div>
+                <div className="text-gray-400 text-sm">Coverage Area</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Orders/Testimonials Section */}
+      <section id="orders" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -360,52 +496,29 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Customer Experience
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">Trusted by </span>
+              <span className="gradient-text">Businesses</span>
             </h2>
             <p className="text-xl text-gray-400">
-              What our customers say about us
+              See what our clients say about our services
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Chinedu Okoro',
-                role: 'E-commerce Owner',
-                rating: 5,
-                text: 'LogiTrack has transformed how we handle deliveries. The real-time tracking gives our customers confidence!'
-              },
-              {
-                name: 'Amina Bello',
-                role: 'Small Business',
-                rating: 5,
-                text: 'Professional drivers and transparent pricing. I can focus on my business knowing deliveries are handled well.'
-              },
-              {
-                name: 'Tunde Williams',
-                role: 'Regular Customer',
-                rating: 5,
-                text: 'The WhatsApp updates are amazing! I always know exactly where my package is. Highly recommended!'
-              }
-            ].map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card p-6"
+                className="glass-card p-8"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-xl">⭐</span>
-                  ))}
-                </div>
-                <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
+                <p className="text-gray-300 mb-6 italic leading-relaxed">"{testimonial.text}"</p>
                 <div className="border-t border-white/10 pt-4">
-                  <p className="text-white font-semibold">{testimonial.name}</p>
-                  <p className="text-gray-500 text-sm">{testimonial.role}</p>
+                  <p className="text-white font-semibold text-lg">{testimonial.name}</p>
+                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -422,8 +535,11 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">Get In Touch</h2>
-            <p className="text-xl text-gray-400">We'd love to hear from you</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">Get in </span>
+              <span className="gradient-text">Touch</span>
+            </h2>
+            <p className="text-xl text-gray-400">We're here to help with your logistics needs</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -434,34 +550,25 @@ const LandingPage = () => {
               className="glass-card p-8"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl">📧</div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white">support@logitrack.com</p>
-                  </div>
+              <div className="space-y-6">
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Email</p>
+                  <p className="text-white text-lg">support@fastcargo.ng</p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl">📞</div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white">+234 800 123 4567</p>
-                  </div>
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Phone</p>
+                  <p className="text-white text-lg">+234 800 FAST CARGO</p>
+                  <p className="text-gray-400 text-sm">+234 800 3278 2274</p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl">📍</div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Address</p>
-                    <p className="text-white">123 Logistics Avenue, Ikeja, Lagos</p>
-                  </div>
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Address</p>
+                  <p className="text-white">Plot 123, Logistics Drive</p>
+                  <p className="text-white">Ikeja, Lagos State, Nigeria</p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl">🕒</div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Business Hours</p>
-                    <p className="text-white">Mon - Sat: 8AM - 6PM</p>
-                  </div>
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Business Hours</p>
+                  <p className="text-white">24/7 Operations</p>
+                  <p className="text-gray-400 text-sm">Customer Service: Mon - Sat, 8AM - 8PM</p>
                 </div>
               </div>
             </motion.div>
@@ -472,7 +579,7 @@ const LandingPage = () => {
               viewport={{ once: true }}
               className="glass-card p-8"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <input
                   type="text"
@@ -518,22 +625,22 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-3xl">🚚</span>
-                <h3 className="text-xl font-bold gradient-text">LogiTrack</h3>
-              </div>
-              <p className="text-gray-400 text-sm">
-                Making logistics simple, transparent, and reliable across Nigeria.
+              <h3 className="text-2xl font-bold mb-4">
+                <span className="text-white">Fast</span>
+                <span className="gradient-text">Cargo</span>
+              </h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Nigeria's leading logistics provider. Fast, reliable, and trusted nationwide delivery services.
               </p>
             </div>
 
             <div>
               <h4 className="text-white font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-neon-blue">About Us</button></li>
-                <li><button onClick={() => scrollToSection('features')} className="hover:text-neon-blue">Features</button></li>
-                <li><Link to="/track" className="hover:text-neon-blue">Track Package</Link></li>
-                <li><Link to="/register" className="hover:text-neon-blue">Register</Link></li>
+                <li><button onClick={() => scrollToSection('orders')} className="hover:text-white transition-colors">Orders</button></li>
+                <li><button onClick={() => scrollToSection('schedules')} className="hover:text-white transition-colors">Schedules</button></li>
+                <li><button onClick={handleTrackingClick} className="hover:text-white transition-colors">Tracking</button></li>
+                <li><button onClick={() => scrollToSection('services')} className="hover:text-white transition-colors">Services</button></li>
               </ul>
             </div>
 
@@ -541,9 +648,9 @@ const LandingPage = () => {
               <h4 className="text-white font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>Express Delivery</li>
-                <li>Bulk Shipping</li>
-                <li>E-commerce Integration</li>
-                <li>Business Solutions</li>
+                <li>Freight & Haulage</li>
+                <li>Warehousing</li>
+                <li>International Shipping</li>
               </ul>
             </div>
 
@@ -552,30 +659,16 @@ const LandingPage = () => {
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>Terms of Service</li>
                 <li>Privacy Policy</li>
-                <li>Cookie Policy</li>
-                <li>Refund Policy</li>
+                <li>Shipping Policy</li>
+                <li>Insurance Claims</li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-gray-500 text-sm">
-              © 2025 LogiTrack. All rights reserved.
+              © 2025 FastCargo. All rights reserved. Delivering excellence across Nigeria.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-neon-blue transition-colors">
-                <span className="text-2xl">📘</span>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-neon-blue transition-colors">
-                <span className="text-2xl">🐦</span>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-neon-blue transition-colors">
-                <span className="text-2xl">📷</span>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-neon-blue transition-colors">
-                <span className="text-2xl">💼</span>
-              </a>
-            </div>
           </div>
         </div>
       </footer>
