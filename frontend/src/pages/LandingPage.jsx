@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -145,7 +146,7 @@ const LandingPage = () => {
               <Link to="/login" className="btn-secondary text-sm px-6">
                 Sign In
               </Link>
-              <Link to="/register" className="btn-primary text-sm px-6">
+              <Link to="/get-started" className="btn-primary text-sm px-6">
                 Get Started
               </Link>
             </div>
@@ -208,7 +209,7 @@ const LandingPage = () => {
                   <Link to="/login" className="btn-secondary text-sm text-center">
                     Sign In
                   </Link>
-                  <Link to="/register" className="btn-primary text-sm text-center">
+                  <Link to="/get-started" className="btn-primary text-sm text-center">
                     Get Started
                   </Link>
                 </div>
@@ -237,7 +238,7 @@ const LandingPage = () => {
                 we handle your cargo with speed, care, and complete transparency.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/register" className="btn-primary text-lg px-8">
+                <Link to="/get-started" className="btn-primary text-lg px-8">
                   Start Shipping
                 </Link>
                 <button 

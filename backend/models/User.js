@@ -49,6 +49,49 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  nin: {
+    type: String,
+    default: null,
+    maxlength: [11, 'NIN must be 11 digits']
+  },
+  address: {
+    type: String,
+    default: null
+  },
+  city: {
+    type: String,
+    default: null
+  },
+  state: {
+    type: String,
+    default: null
+  },
+  vehicleImages: {
+    front: {
+      url: String,
+      publicId: String
+    },
+    back: {
+      url: String,
+      publicId: String
+    },
+    leftSide: {
+      url: String,
+      publicId: String
+    },
+    rightSide: {
+      url: String,
+      publicId: String
+    },
+    inside: {
+      url: String,
+      publicId: String
+    },
+    engine: {
+      url: String,
+      publicId: String
+    }
+  },
   isAvailable: {
     type: Boolean,
     default: true
@@ -92,15 +135,14 @@ const userSchema = new mongoose.Schema({
 userSchema.index({ currentLocation: '2dsphere' });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function() {
   // Only hash if password is modified
   if (!this.isModified('password')) {
-    return next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
 // Compare password method
