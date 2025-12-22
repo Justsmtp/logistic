@@ -25,145 +25,158 @@ const CustomerDashboard = () => {
   const completedDeliveries = deliveries.filter(d => d.status === 'delivered');
 
   return (
-    <div className="min-h-screen bg-dark-900 cyber-grid">
+    <div className="min-h-screen bg-dark-900">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
+        {/* Page Header - Professional Title Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold gradient-text mb-2">My Deliveries</h1>
-          <p className="text-gray-400">Track and manage your delivery orders</p>
+          <h1 className="text-3xl font-bold text-white mb-2">My Shipments</h1>
+          <p className="text-gray-400">Track and manage all your delivery orders</p>
         </motion.div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Clean Enterprise Design */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Active Deliveries */}
+          {/* Active Deliveries Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-blue hover:shadow-lg transition-shadow"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">🚚</div>
-              <div className="text-right">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm font-medium mb-1">Active Shipments</p>
                 <p className="text-3xl font-bold text-white">{activeDeliveries.length}</p>
-                <p className="text-sm text-gray-400">Active</p>
+              </div>
+              <div className="w-12 h-12 rounded-full bg-neon-blue/10 flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-neon-blue rounded-full border-t-transparent animate-spin"></div>
               </div>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-blue to-neon-cyan rounded-full"></div>
           </motion.div>
 
-          {/* Completed */}
+          {/* Completed Deliveries Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-green hover:shadow-lg transition-shadow"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">✅</div>
-              <div className="text-right">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm font-medium mb-1">Completed</p>
                 <p className="text-3xl font-bold text-white">{completedDeliveries.length}</p>
-                <p className="text-sm text-gray-400">Completed</p>
+              </div>
+              <div className="w-12 h-12 rounded-full bg-neon-green/10 flex items-center justify-center">
+                <svg className="w-6 h-6 text-neon-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
               </div>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-green to-emerald-500 rounded-full"></div>
           </motion.div>
 
-          {/* Total Deliveries */}
+          {/* Total Deliveries Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-purple hover:shadow-lg transition-shadow"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">📦</div>
-              <div className="text-right">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm font-medium mb-1">Total Shipments</p>
                 <p className="text-3xl font-bold text-white">{deliveries.length}</p>
-                <p className="text-sm text-gray-400">Total</p>
+              </div>
+              <div className="w-12 h-12 rounded-full bg-neon-purple/10 flex items-center justify-center">
+                <svg className="w-6 h-6 text-neon-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
               </div>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-purple to-neon-pink rounded-full"></div>
           </motion.div>
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions - Professional Button Layout */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex flex-wrap gap-4 mb-8"
+          className="flex flex-wrap gap-3 mb-8"
         >
           <Link to="/customer/deliveries/new" className="btn-primary">
-            ➕ Request Delivery
+            Request Delivery
           </Link>
           <Link to="/track" className="btn-secondary">
-            📍 Track Package
+            Track Package
           </Link>
           <button onClick={refresh} className="btn-secondary">
-            🔄 Refresh
+            Refresh
           </button>
         </motion.div>
 
-        {/* Filter Tabs */}
+        {/* Filter Tabs - Segmented Control Style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="glass-card p-4 md:p-6 mb-8"
+          className="glass-card p-2 mb-8 inline-flex rounded-xl"
         >
-          <div className="flex flex-wrap gap-2 md:gap-3">
+          <button
+            onClick={() => setFilter('')}
+            className={`px-6 py-2.5 rounded-lg font-medium transition-all ${
+              filter === ''
+                ? 'bg-neon-blue text-white shadow-lg'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            All ({deliveries.length})
+          </button>
+          {DELIVERY_STATUSES.map((status) => (
             <button
-              onClick={() => setFilter('')}
-              className={`px-4 py-2 rounded-lg transition-all ${
-                filter === ''
-                  ? 'bg-neon-blue text-white'
-                  : 'glass-card text-gray-400 hover:text-white'
+              key={status.value}
+              onClick={() => setFilter(status.value)}
+              className={`px-6 py-2.5 rounded-lg font-medium transition-all text-sm ${
+                filter === status.value
+                  ? 'bg-neon-blue text-white shadow-lg'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
-              All ({deliveries.length})
+              {status.label}
             </button>
-            {DELIVERY_STATUSES.map((status) => (
-              <button
-                key={status.value}
-                onClick={() => setFilter(status.value)}
-                className={`px-4 py-2 rounded-lg transition-all text-sm ${
-                  filter === status.value
-                    ? 'bg-neon-blue text-white'
-                    : 'glass-card text-gray-400 hover:text-white'
-                }`}
-              >
-                {status.icon} {status.label}
-              </button>
-            ))}
-          </div>
+          ))}
         </motion.div>
 
-        {/* Deliveries List */}
+        {/* Deliveries List - Professional Shipment Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
           {loading ? (
-            <LoadingSpinner />
+            <div className="flex justify-center py-12">
+              <LoadingSpinner />
+            </div>
           ) : deliveries.length === 0 ? (
-            <EmptyState
-              icon="📦"
-              title="No deliveries found"
-              message="You haven't created any deliveries yet. Start by requesting your first delivery!"
-              action={
-                <Link to="/customer/deliveries/new" className="btn-primary">
+            <div className="glass-card p-12 text-center">
+              <div className="max-w-md mx-auto">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-dark-800 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">No Shipments Found</h3>
+                <p className="text-gray-400 mb-6">
+                  You haven't created any deliveries yet. Start by requesting your first shipment.
+                </p>
+                <Link to="/customer/deliveries/new" className="btn-primary inline-block">
                   Request First Delivery
                 </Link>
-              }
-            />
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {deliveries.map((delivery, index) => (
@@ -172,29 +185,31 @@ const CustomerDashboard = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="glass-card p-4 md:p-6 card-hover"
+                  className="glass-card hover:shadow-xl transition-all"
                 >
-                  {/* Header */}
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-3">
-                      <Link
-                        to={`/customer/deliveries/${delivery._id}`}
-                        className="text-xl font-bold text-neon-blue hover:text-neon-cyan font-mono"
-                      >
-                        {delivery.trackingNumber}
-                      </Link>
-                      <StatusBadge status={delivery.status} />
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-400">Created</p>
-                      <p className="text-white text-sm">{formatDate(delivery.createdAt)}</p>
+                  {/* Card Header */}
+                  <div className="p-6 border-b border-white/5">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <Link
+                          to={`/customer/deliveries/${delivery._id}`}
+                          className="text-xl font-bold text-neon-blue hover:text-neon-cyan font-mono"
+                        >
+                          {delivery.trackingNumber}
+                        </Link>
+                        <StatusBadge status={delivery.status} />
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-gray-500 mb-1">Created</p>
+                        <p className="text-sm text-white">{formatDate(delivery.createdAt)}</p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
-                  <div className="mb-4">
+                  {/* Progress Bar - Clean Design */}
+                  <div className="px-6 py-4 bg-dark-800/30">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-sm text-gray-400">Delivery Progress</p>
+                      <p className="text-sm text-gray-400 font-medium">Shipment Progress</p>
                       <p className="text-sm text-neon-blue font-semibold">
                         {getDeliveryProgress(delivery.status)}%
                       </p>
@@ -209,75 +224,76 @@ const CustomerDashboard = () => {
                     </div>
                   </div>
 
-                  {/* Details Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">📍 From</p>
-                      <p className="text-white text-sm">
-                        {delivery.pickupAddress.city}, {delivery.pickupAddress.state}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">📍 To</p>
-                      <p className="text-white text-sm">
-                        {delivery.deliveryAddress.city}, {delivery.deliveryAddress.state}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">💰 Price</p>
-                      <p className="text-white text-sm font-semibold">
-                        {formatCurrency(delivery.price)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Package Info */}
-                  <div className="border-t border-white/10 pt-4 mb-4">
-                    <p className="text-gray-400 text-sm mb-1">📦 Package</p>
-                    <p className="text-white">{delivery.packageDetails.description}</p>
-                  </div>
-
-                  {/* Driver Info (if assigned) */}
-                  {delivery.driver && (
-                    <div className="border-t border-white/10 pt-4 mb-4">
-                      <p className="text-gray-400 text-sm mb-2">🚚 Driver</p>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-white font-medium">{delivery.driver.name}</p>
-                          <p className="text-gray-500 text-sm">{delivery.driver.phone}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm text-gray-400">Vehicle</p>
-                          <p className="text-white capitalize">
-                            {delivery.driver.vehicleType} - {delivery.driver.vehicleNumber}
-                          </p>
-                        </div>
+                  {/* Card Body - Structured Grid Layout */}
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                      {/* Route Information */}
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-2">ORIGIN</p>
+                        <p className="text-white font-medium">{delivery.pickupAddress.city}</p>
+                        <p className="text-gray-400 text-sm">{delivery.pickupAddress.state}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-2">DESTINATION</p>
+                        <p className="text-white font-medium">{delivery.deliveryAddress.city}</p>
+                        <p className="text-gray-400 text-sm">{delivery.deliveryAddress.state}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-2">SHIPPING COST</p>
+                        <p className="text-white text-lg font-bold">
+                          {formatCurrency(delivery.price)}
+                        </p>
                       </div>
                     </div>
-                  )}
 
-                  {/* Actions */}
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      to={`/customer/deliveries/${delivery._id}`}
-                      className="btn-primary text-sm"
-                    >
-                      View Details
-                    </Link>
-                    <Link
-                      to={`/track?number=${delivery.trackingNumber}`}
-                      className="btn-secondary text-sm"
-                    >
-                      📍 Track Live
-                    </Link>
+                    {/* Package Details */}
+                    <div className="border-t border-white/5 pt-4 mb-6">
+                      <p className="text-xs text-gray-500 font-medium mb-2">PACKAGE DETAILS</p>
+                      <p className="text-white">{delivery.packageDetails.description}</p>
+                    </div>
+
+                    {/* Driver Information - Compact Panel */}
                     {delivery.driver && (
-                      <a
-                        href={`tel:${delivery.driver.phone}`}
-                        className="btn-secondary text-sm"
-                      >
-                        📞 Call Driver
-                      </a>
+                      <div className="border-t border-white/5 pt-4 mb-6">
+                        <p className="text-xs text-gray-500 font-medium mb-3">ASSIGNED DRIVER</p>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-white font-medium">{delivery.driver.name}</p>
+                            <p className="text-gray-400 text-sm">{delivery.driver.phone}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-gray-400 text-sm">Vehicle</p>
+                            <p className="text-white capitalize">
+                              {delivery.driver.vehicleType} • {delivery.driver.vehicleNumber}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     )}
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={`/customer/deliveries/${delivery._id}`}
+                        className="btn-primary text-sm flex-1 md:flex-none"
+                      >
+                        View Details
+                      </Link>
+                      <Link
+                        to={`/track?number=${delivery.trackingNumber}`}
+                        className="btn-secondary text-sm flex-1 md:flex-none"
+                      >
+                        Track Live
+                      </Link>
+                      {delivery.driver && (
+                        <a
+                          href={`tel:${delivery.driver.phone}`}
+                          className="btn-secondary text-sm flex-1 md:flex-none"
+                        >
+                          Call Driver
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}

@@ -68,35 +68,33 @@ const AdminDashboard = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
+        {/* Page Header - Executive Dashboard Style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold gradient-text mb-2">Admin Dashboard</h1>
-          <p className="text-gray-400">Manage deliveries, drivers, and system operations</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Operations Dashboard</h1>
+          <p className="text-gray-400">Monitor and manage all logistics operations</p>
         </motion.div>
 
-        {/* Stats Grid */}
+        {/* Stats Grid - Executive KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Deliveries */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-blue hover:shadow-xl transition-all"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">📦</div>
-              <div className="text-right">
-                <p className="text-3xl font-bold text-white">
-                  {stats?.deliveries?.statusBreakdown?.reduce((acc, s) => acc + s.count, 0) || 0}
-                </p>
-                <p className="text-sm text-gray-400">Total Deliveries</p>
-              </div>
+            <p className="text-gray-400 text-sm font-medium mb-2">TOTAL SHIPMENTS</p>
+            <p className="text-4xl font-bold text-white mb-1">
+              {stats?.deliveries?.statusBreakdown?.reduce((acc, s) => acc + s.count, 0) || 0}
+            </p>
+            <div className="flex items-center gap-2 text-sm">
+              <div className="w-2 h-2 rounded-full bg-neon-blue animate-pulse"></div>
+              <span className="text-gray-500">All time</span>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-blue to-neon-cyan rounded-full"></div>
           </motion.div>
 
           {/* Active Deliveries */}
@@ -104,18 +102,16 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-cyan hover:shadow-xl transition-all"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">🚚</div>
-              <div className="text-right">
-                <p className="text-3xl font-bold text-white">
-                  {getStatusCount('in_transit') + getStatusCount('out_for_delivery')}
-                </p>
-                <p className="text-sm text-gray-400">Active Deliveries</p>
-              </div>
+            <p className="text-gray-400 text-sm font-medium mb-2">IN TRANSIT</p>
+            <p className="text-4xl font-bold text-white mb-1">
+              {getStatusCount('in_transit') + getStatusCount('out_for_delivery')}
+            </p>
+            <div className="flex items-center gap-2 text-sm">
+              <div className="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></div>
+              <span className="text-gray-500">Active now</span>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-purple to-neon-pink rounded-full"></div>
           </motion.div>
 
           {/* Available Drivers */}
@@ -123,18 +119,16 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-neon-green hover:shadow-xl transition-all"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">👤</div>
-              <div className="text-right">
-                <p className="text-3xl font-bold text-white">
-                  {stats?.users?.availableDrivers || 0}
-                </p>
-                <p className="text-sm text-gray-400">Available Drivers</p>
-              </div>
+            <p className="text-gray-400 text-sm font-medium mb-2">AVAILABLE DRIVERS</p>
+            <p className="text-4xl font-bold text-white mb-1">
+              {stats?.users?.availableDrivers || 0}
+            </p>
+            <div className="flex items-center gap-2 text-sm">
+              <div className="w-2 h-2 rounded-full bg-neon-green"></div>
+              <span className="text-gray-500">Online</span>
             </div>
-            <div className="h-1 bg-gradient-to-r from-neon-green to-emerald-500 rounded-full"></div>
           </motion.div>
 
           {/* Revenue */}
@@ -142,57 +136,56 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="glass-card p-6 card-hover"
+            className="glass-card p-6 border-l-4 border-yellow-500 hover:shadow-xl transition-all"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-4xl">💰</div>
-              <div className="text-right">
-                <p className="text-2xl font-bold text-white">
-                  {formatCurrency(stats?.deliveries?.totalRevenue || 0)}
-                </p>
-                <p className="text-sm text-gray-400">Total Revenue</p>
-              </div>
+            <p className="text-gray-400 text-sm font-medium mb-2">TOTAL REVENUE</p>
+            <p className="text-3xl font-bold text-white mb-1">
+              {formatCurrency(stats?.deliveries?.totalRevenue || 0)}
+            </p>
+            <div className="flex items-center gap-2 text-sm">
+              <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              <span className="text-green-500 font-medium">12.5% up</span>
             </div>
-            <div className="h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full"></div>
           </motion.div>
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions - Admin Control Panel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="flex flex-wrap gap-4 mb-8"
+          className="flex flex-wrap gap-3 mb-8"
         >
           <Link to="/admin/deliveries/new" className="btn-primary">
-            ➕ Create Delivery
+            Create Shipment
           </Link>
           <Link to="/admin/deliveries" className="btn-secondary">
-            📋 All Deliveries
+            All Shipments
           </Link>
           <Link to="/admin/users" className="btn-secondary">
-            👥 Manage Users
+            Manage Users
           </Link>
           <Link to="/admin/drivers" className="btn-secondary">
-            🚚 Manage Drivers
+            Driver Management
           </Link>
         </motion.div>
 
-        {/* Status Filter */}
+        {/* Status Filter - Professional Segmented Control */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="glass-card p-6 mb-8"
+          className="glass-card p-2 mb-8"
         >
-          <h3 className="text-xl font-semibold text-white mb-4">Filter by Status</h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex items-center gap-2 overflow-x-auto">
             <button
               onClick={() => setFilter('')}
-              className={`px-4 py-2 rounded-lg transition-all ${
+              className={`px-5 py-2.5 rounded-lg font-medium whitespace-nowrap transition-all ${
                 filter === ''
-                  ? 'bg-neon-blue text-white'
-                  : 'glass-card text-gray-400 hover:text-white'
+                  ? 'bg-neon-blue text-white shadow-lg'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
               All ({stats?.deliveries?.statusBreakdown?.reduce((acc, s) => acc + s.count, 0) || 0})
@@ -201,58 +194,66 @@ const AdminDashboard = () => {
               <button
                 key={status.value}
                 onClick={() => setFilter(status.value)}
-                className={`px-4 py-2 rounded-lg transition-all ${
+                className={`px-5 py-2.5 rounded-lg font-medium whitespace-nowrap transition-all ${
                   filter === status.value
-                    ? 'bg-neon-blue text-white'
-                    : 'glass-card text-gray-400 hover:text-white'
+                    ? 'bg-neon-blue text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white'
                 }`}
               >
-                {status.icon} {status.label} ({getStatusCount(status.value)})
+                {status.label} ({getStatusCount(status.value)})
               </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Recent Deliveries */}
+        {/* Deliveries Table - Enterprise Data Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="glass-card p-6"
+          className="glass-card"
         >
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-white">Recent Deliveries</h3>
-            <button onClick={refresh} className="text-neon-blue hover:text-neon-cyan transition-colors">
-              🔄 Refresh
-            </button>
+          <div className="p-6 border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-white">Recent Shipments</h3>
+              <button onClick={refresh} className="text-neon-blue hover:text-neon-cyan transition-colors text-sm font-medium">
+                Refresh Data
+              </button>
+            </div>
           </div>
 
           {loading ? (
-            <LoadingSpinner />
+            <div className="p-12 flex justify-center">
+              <LoadingSpinner />
+            </div>
           ) : deliveries.length === 0 ? (
-            <EmptyState
-              icon="📦"
-              title="No deliveries found"
-              message={filter ? `No deliveries with status "${filter}"` : "No deliveries created yet"}
-              action={
-                <Link to="/admin/deliveries/new" className="btn-primary">
-                  Create First Delivery
-                </Link>
-              }
-            />
+            <div className="p-12 text-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-dark-800 flex items-center justify-center">
+                <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">No Shipments Found</h3>
+              <p className="text-gray-400 mb-6">
+                {filter ? `No deliveries with status "${filter}"` : "No shipments created yet"}
+              </p>
+              <Link to="/admin/deliveries/new" className="btn-primary inline-block">
+                Create First Shipment
+              </Link>
+            </div>
           ) : (
             <>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-white/10">
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Tracking #</th>
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Customer</th>
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Driver</th>
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Status</th>
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Created</th>
-                      <th className="text-left py-3 px-4 text-gray-400 font-medium">Price</th>
-                      <th className="text-right py-3 px-4 text-gray-400 font-medium">Actions</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Tracking</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Customer</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Driver</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Status</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Created</th>
+                      <th className="text-left py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Amount</th>
+                      <th className="text-right py-4 px-6 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -264,35 +265,37 @@ const AdminDashboard = () => {
                         transition={{ delay: index * 0.05 }}
                         className="border-b border-white/5 hover:bg-white/5 transition-colors"
                       >
-                        <td className="py-4 px-4">
+                        <td className="py-4 px-6">
                           <Link
                             to={`/admin/deliveries/${delivery._id}`}
-                            className="text-neon-blue hover:text-neon-cyan font-mono"
+                            className="text-neon-blue hover:text-neon-cyan font-mono font-medium"
                           >
                             {delivery.trackingNumber}
                           </Link>
                         </td>
-                        <td className="py-4 px-4 text-gray-300">{delivery.customerName}</td>
-                        <td className="py-4 px-4 text-gray-300">
-                          {delivery.driver?.name || (
-                            <span className="text-gray-500 italic">Not assigned</span>
+                        <td className="py-4 px-6 text-white">{delivery.customerName}</td>
+                        <td className="py-4 px-6">
+                          {delivery.driver?.name ? (
+                            <span className="text-white">{delivery.driver.name}</span>
+                          ) : (
+                            <span className="text-gray-500 italic text-sm">Unassigned</span>
                           )}
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="py-4 px-6">
                           <StatusBadge status={delivery.status} />
                         </td>
-                        <td className="py-4 px-4 text-gray-400 text-sm">
+                        <td className="py-4 px-6 text-gray-400 text-sm">
                           {formatDate(delivery.createdAt)}
                         </td>
-                        <td className="py-4 px-4 text-gray-300 font-semibold">
+                        <td className="py-4 px-6 text-white font-semibold">
                           {formatCurrency(delivery.price)}
                         </td>
-                        <td className="py-4 px-4 text-right">
+                        <td className="py-4 px-6 text-right">
                           <Link
                             to={`/admin/deliveries/${delivery._id}`}
-                            className="text-neon-blue hover:text-neon-cyan text-sm"
+                            className="text-neon-blue hover:text-neon-cyan text-sm font-medium"
                           >
-                            View →
+                            Manage
                           </Link>
                         </td>
                       </motion.tr>
@@ -301,17 +304,17 @@ const AdminDashboard = () => {
                 </table>
               </div>
 
-              {/* Pagination */}
+              {/* Pagination Controls */}
               {pagination.pages > 1 && (
-                <div className="mt-6 flex items-center justify-between">
+                <div className="p-6 border-t border-white/10 flex items-center justify-between">
                   <p className="text-gray-400 text-sm">
-                    Showing {deliveries.length} of {pagination.total} deliveries
+                    Showing {deliveries.length} of {pagination.total} shipments
                   </p>
                   <div className="flex gap-2">
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
-                        className={`px-4 py-2 rounded-lg ${
+                        className={`w-10 h-10 rounded-lg font-medium transition-all ${
                           page === pagination.page
                             ? 'bg-neon-blue text-white'
                             : 'glass-card text-gray-400 hover:text-white'
