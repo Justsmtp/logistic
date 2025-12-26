@@ -14,8 +14,8 @@ const CustomerDashboard = () => {
   const [filter, setFilter] = useState('');
   const { deliveries, loading, pagination, refresh } = useDeliveries(
     { status: filter, limit: 20 },
-    true,
-    30000
+    false,
+    0
   );
 
   const activeDeliveries = deliveries.filter(d => 

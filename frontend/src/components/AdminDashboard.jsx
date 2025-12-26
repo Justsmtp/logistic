@@ -17,8 +17,8 @@ const AdminDashboard = () => {
   const [filter, setFilter] = useState('');
   const { deliveries, loading, pagination, refresh } = useDeliveries(
     { status: filter, limit: 10 },
-    true,
-    30000
+    false,
+    0
   );
   const [drivers, setDrivers] = useState([]);
 

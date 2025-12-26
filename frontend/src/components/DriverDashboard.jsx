@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -21,8 +22,8 @@ const DriverDashboard = () => {
   const [activeFilter, setActiveFilter] = useState('assigned');
   const { deliveries, loading, refresh } = useDeliveries(
     { status: activeFilter },
-    true,
-    30000
+    false,
+    0
   );
   const { updateStatus, actionLoading } = useDeliveryActions();
 
